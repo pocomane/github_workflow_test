@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 
 env:
-  BUILD_TYPE: ${{ toJSON(github) }}
+  GITHUB_EVENT_NAME: ${{ github.event_name }}
 
 jobs:
 
