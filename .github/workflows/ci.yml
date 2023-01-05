@@ -10,7 +10,7 @@ jobs:
   ### BUILD windows
 
   windows-build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     env:
       TARGET_ARCH: amd64-windows
 
@@ -33,7 +33,7 @@ jobs:
   ### BUILD linux
 
   linux-build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     env:
       TARGET_ARCH: amd64-linux
 
@@ -75,7 +75,7 @@ jobs:
 
   linux-test:
     needs: [linux-build]
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Download Ubuntu artifact
@@ -92,7 +92,7 @@ jobs:
 
   release:
     needs: [windows-test, linux-test]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
 
