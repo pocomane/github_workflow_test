@@ -15,7 +15,7 @@ jobs:
       TARGET_ARCH: amd64-windows
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
           fetch-depth: 0
@@ -38,7 +38,7 @@ jobs:
       TARGET_ARCH: amd64-linux
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
           fetch-depth: 0
