@@ -73,7 +73,8 @@ jobs:
 
   ### TEST linux
 
-  linux-build:
+  linux-test:
+    needs: [linux-build]
     runs-on: ubuntu-18.04
 
     steps:
