@@ -2,9 +2,6 @@ name: CI
 
 on: [push, pull_request]
 
-env:
-  GITHUB_EVENT_NAME: ${{ github.event_name }}
-
 jobs:
 
   ### BUILD windows
@@ -104,6 +101,7 @@ jobs:
   ### Release
 
   release:
+    if: github.event_name == "pull_request"
     needs: [windows-test, linux-test]
     runs-on: ubuntu-22.04
 
