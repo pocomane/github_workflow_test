@@ -120,7 +120,12 @@ jobs:
           path: ./release/lin.txt #destination
 
       - name: Release
-        uses: ncipollo/release-action@v1
+        #uses: "marvinpinto/action-automatic-releases@latest" # original repo
+        uses: "francesco-ballarin/action-automatic-releases@latest"
         with:
-          artifacts: "./release/*"
-          #bodyFile: "body.md"
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Development Build"
+          files: ./release/*
+
