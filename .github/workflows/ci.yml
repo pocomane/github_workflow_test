@@ -33,7 +33,7 @@ jobs:
 
   ### BUILD linux
 
-  linux-build:
+  linux-build-and-test:
     runs-on: ubuntu-22.04
     env:
       TARGET_ARCH: amd64-linux
@@ -55,6 +55,12 @@ jobs:
           name: "out-linux" #destination
           path: ./out_lin.txt #source
 
+      - name: Test
+        run: |
+          chmod u+x ./build.sh
+          ./build.sh test ./out_win.test.txt
+
+
   ### TEST windows
 
   windows-test:
@@ -73,38 +79,15 @@ jobs:
           name: out-windows #source
           path: ./out_win.txt #destination
 
-      - name: Build
+      - name: Test
         shell: cmd
         run: |
           build.bat test ./out_win.test.txt
 
-  ### TEST linux
-
-  linux-test:
-    needs: [linux-build]
-    runs-on: ubuntu-22.04
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
-          fetch-depth: 0
-
-      - name: Download Ubuntu artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: out-linux #source
-          path: ./out_lin.txt #destination
-
-      - name: Build
-        run: |
-          chmod u+x ./build.sh
-          ./build.sh test ./out_win.test.txt
-
   ### Release
 
   release:
-    needs: [windows-test, linux-test]
+    needs: [windows-test, linux-build-and-test]
     runs-on: ubuntu-22.04
 
     steps:
