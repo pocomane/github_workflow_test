@@ -111,13 +111,20 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: out-windows #source
-          path: ./out_win.txt #destination
+          path: ./release/win.txt #destination
 
       - name: Download Ubuntu artifact
         uses: actions/download-artifact@v3
         with:
           name: out-linux #source
-          path: ./out_lin.txt #destination
+          path: ./release/lin.txt #destination
 
-      # TODO : make github release
+      - name: Download Ubuntu artifact
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          #prerelease: true
+          title: "Development Build"
+          files: ./release/*
 
