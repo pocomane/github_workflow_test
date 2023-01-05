@@ -22,6 +22,7 @@ jobs:
 
       - name: Build
         run: |
+          chmod o+x ./build.sh
           ./build.sh build ./out_win.txt
 
       - name: Deploy
@@ -45,6 +46,7 @@ jobs:
 
       - name: Build
         run: |
+          chmod o+x ./build.sh
           ./build.sh build ./out_lin.txt
 
       - name: Deploy
@@ -86,6 +88,7 @@ jobs:
 
       - name: Build
         run: |
+          chmod o+x ./build.sh
           ./build.sh test ./out_win.test.txt
 
   ### Release
