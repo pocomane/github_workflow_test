@@ -26,7 +26,7 @@ jobs:
           ./build.sh build ./out_win.txt
 
       - name: Deploy
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: "out-windows" #destination
           path: ./out_win.txt #source
@@ -50,7 +50,7 @@ jobs:
           ./build.sh build ./out_lin.txt
 
       - name: Deploy
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: "out-linux" #destination
           path: ./out_lin.txt #source
@@ -63,7 +63,7 @@ jobs:
 
     steps:
       - name: Download Windows artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: out-windows #source
           path: ./out_win.txt #destination
@@ -81,7 +81,7 @@ jobs:
 
     steps:
       - name: Download Ubuntu artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: out-linux #source
           path: ./out_lin.txt #destination
@@ -100,13 +100,13 @@ jobs:
     steps:
 
       - name: Download Windows artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: out-windows #source
           path: ./out_win.txt #destination
 
       - name: Download Ubuntu artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: out-linux #source
           path: ./out_lin.txt #destination
