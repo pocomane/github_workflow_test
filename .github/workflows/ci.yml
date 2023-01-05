@@ -55,7 +55,7 @@ jobs:
 
   ### TEST windows
 
-  windows-test`:
+  windows-test:
     needs: [windows-build]
     runs-on: windows-2019
 
