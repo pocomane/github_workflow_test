@@ -1,0 +1,111 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  BUILD_TYPE: ${{ toJSON(github.event) }}
+
+jobs:
+
+  ### BUILD windows
+
+  windows-build:
+    runs-on: ubuntu-18.04
+    env:
+      TARGET_ARCH: amd64-windows
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Build
+        run: |
+          ./build.sh build ./out_win.txt
+
+      - name: Deploy
+        uses: actions/upload-artifact@v2
+        with:
+          name: "out-windows" #destination
+          path: ./out_win.txt #source
+
+  ### BUILD linux
+
+  linux-build:
+    runs-on: ubuntu-18.04
+    env:
+      TARGET_ARCH: amd64-linux
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Build
+        run: |
+          ./build.sh build ./out_lin.txt
+
+      - name: Deploy
+        uses: actions/upload-artifact@v2
+        with:
+          name: "out-linux" #destination
+          path: ./out_lin.txt #source
+
+  ### TEST windows
+
+  windows-test`:
+    needs: [windows-build]
+    runs-on: windows-2019
+
+    steps:
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: out-windows #source
+          path: ./out_win.txt #destination
+
+      - name: Build
+        shell: cmd
+        run: |
+          build.bat test ./out_win.test.txt
+
+  ### TEST linux
+
+  linux-build:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Download Ubuntu artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: out-linux #source
+          path: ./out_lin.txt #destination
+
+      - name: Build
+        run: |
+          ./build.sh test ./out_win.test.txt
+
+  ### Release
+
+  release:
+    needs: [windows-test, linux-test]
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: out-windows #source
+          path: ./out_win.txt #destination
+
+      - name: Download Ubuntu artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: out-linux #source
+          path: ./out_lin.txt #destination
+
+      # TODO : make github release
+
