@@ -101,7 +101,7 @@ jobs:
   ### Release
 
   release:
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'push'
     needs: [windows-test, linux-test]
     runs-on: ubuntu-22.04
 
