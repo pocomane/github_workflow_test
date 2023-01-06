@@ -132,7 +132,7 @@ jobs:
           name: "out-raspberry" #destination
           path: build/release/* #source
 
-  raspbarry-test:
+  raspberry-test:
     needs: [linux-build]
     runs-on: ubuntu-22.04
     env:
