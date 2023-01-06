@@ -24,7 +24,7 @@ jobs:
           chmod u+x ./build.sh
           ./build.sh
 
-      - name: Deploy
+      - name: Store artifact
         uses: actions/upload-artifact@v3
         with:
           name: "out-windows" #destination
@@ -75,7 +75,7 @@ jobs:
           chmod u+x ./build.sh
           ./build.sh
 
-      - name: Deploy
+      - name: Store artifact
         uses: actions/upload-artifact@v3
         with:
           name: "out-linux" #destination
@@ -95,7 +95,7 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - name: Download Ubuntu artifact
+      - name: Download Linux artifact
         uses: actions/download-artifact@v3
         with:
           name: out-linux #source
@@ -106,11 +106,61 @@ jobs:
           chmod u+x ./build.sh
           ./build.sh
 
+  ### raspberry
+
+  raspberry-build:
+    runs-on: ubuntu-22.04
+    env:
+      BUILD_MODE: build
+      TARGET_ARCH: armhf-linux
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Build
+        run: |
+          chmod u+x ./build.sh
+          ./build.sh
+
+      - name: Store artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: "out-raspberry" #destination
+          path: build/release/* #source
+
+  raspbarry-test:
+    needs: [linux-build]
+    runs-on: ubuntu-22.04
+    env:
+      BUILD_MODE: test
+      TARGET_ARCH: armhf-linux
+
+    steps:
+      - name: Checkout
+        if: false
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Download Raspberry artifact
+        if: false
+        uses: actions/download-artifact@v3
+        with:
+          name: out-raspberry #source
+          path: build/release #destination
+
+      # TODO : proper raspberry test !!!
+
   ### Release
 
   release:
     if: github.event_name == 'push'
-    needs: [windows-test, linux-test]
+    needs: [windows-test, linux-test, raspberry-test]
     runs-on: ubuntu-22.04
 
     steps:
@@ -121,10 +171,16 @@ jobs:
           name: out-windows #source
           path: release #destination
 
-      - name: Download Ubuntu artifact
+      - name: Download Linux artifact
         uses: actions/download-artifact@v3
         with:
           name: out-linux #source
+          path: release #destination
+
+      - name: Download Raspberry artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: out-raspberry #source
           path: release #destination
 
       - name: Release

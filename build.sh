@@ -4,6 +4,8 @@ set -e
 
 if [ "$TARGET_ARCH" = "amd64-windows" ] ; then
   FILENAME="win"
+elif [ "$TARGET_ARCH" = "armhf-linux" ] ; then
+  FILENAME="ras"
 else # TARGET_ARCH == amd64-linux
   FILENAME="lin"
 fi
@@ -13,11 +15,19 @@ if [ "$BUILD_MODE" = "test" ] ; then
 else # BUILD_MODE == build
 
   mkdir -p build/release
-  echo "ok $TARGET_ARCH $GITHUB_EVENT_NAME" > "$FILENAME".txt
+  echo "ok $TARGET_ARCH $GITHUB_EVENT_NAME" > build/release/"$FILENAME".txt
   if [ "$FILENAME" = "lin" ] ; then
     cd build/release
     gcc -static ../../main.c -o "$FILENAME".exe
     strip "$FILENAME".exe
+  elif [ "$FILENAME" = "ras" ] ; then
+    cd build
+    curl -L -k http://musl.cc/arm-linux-musleabihf-cross.tgz --output gcc.tgz
+    tar -xzf gcc.tgz
+    rm gcc.tgz
+    cd release
+    ../arm*/bin/arm*-gcc -static ../../main.c -o "$FILENAME".exe
+    ../arm*/bin/arm*-strip "$FILENAME".exe
   else # FILENEME == win
     cd build
     curl -L -k http://musl.cc/i686-w64-mingw32-cross.tgz --output gcc.tgz
