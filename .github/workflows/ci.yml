@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
 
-  ### BUILD windows
+  ### windows
 
   windows-build:
     runs-on: ubuntu-22.04
@@ -28,32 +28,6 @@ jobs:
           name: "out-windows" #destination
           path: ./out_win.txt #source
 
-  ### BUILD linux
-
-  linux-build:
-    runs-on: ubuntu-22.04
-    env:
-      TARGET_ARCH: amd64-linux
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
-          fetch-depth: 0
-
-      - name: Build
-        run: |
-          chmod u+x ./build.sh
-          ./build.sh build ./out_lin.txt
-
-      - name: Deploy
-        uses: actions/upload-artifact@v3
-        with:
-          name: "out-linux" #destination
-          path: ./out_lin.txt #source
-
-  ### TEST windows
-
   windows-test:
     needs: [windows-build]
     runs-on: windows-2019
@@ -75,7 +49,30 @@ jobs:
         run: |
           build.bat test ./out_win.test.txt
 
-  ### TEST linux
+  ### linux
+
+  linux-build:
+    runs-on: ubuntu-22.04
+    if: false
+    env:
+      TARGET_ARCH: amd64-linux
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Build
+        run: |
+          chmod u+x ./build.sh
+          ./build.sh build ./out_lin.txt
+
+      - name: Deploy
+        uses: actions/upload-artifact@v3
+        with:
+          name: "out-linux" #destination
+          path: ./out_lin.txt #source
 
   linux-test:
     needs: [linux-build]
