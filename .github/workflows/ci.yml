@@ -111,13 +111,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: out-windows #source
-          path: ./release/win.txt #destination
+          path: win.txt #destination
 
       - name: Download Ubuntu artifact
         uses: actions/download-artifact@v3
         with:
           name: out-linux #source
-          path: ./release/lin.txt #destination
+          path: lin.txt #destination
 
       - name: Release
         #uses: "marvinpinto/action-automatic-releases@latest" # original repo
@@ -129,5 +129,6 @@ jobs:
           prerelease: false
           title: "Development Build"
           files: |
-            release/*.txt
+            LICENSE.txt
+            *.txt
 
