@@ -8,6 +8,7 @@ else # TARGET_ARCH == amd64-linux
   FILENAME="lin"
 fi
 if [ "$BUILD_MODE" = "test" ] ; then
+  chmod ugo+x ./build/release/"$FILENAME".exe
   ./build/release/"$FILENAME".exe
 else # BUILD_MODE == build
 
