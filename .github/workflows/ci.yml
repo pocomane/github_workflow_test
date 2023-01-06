@@ -124,11 +124,17 @@ jobs:
           name: out-windows #source
           path: release #destination
 
+      - name: DEBUG
+        run: find .
+
       - name: Download Ubuntu artifact
         uses: actions/download-artifact@v3
         with:
           name: out-linux #source
           path: release #destination
+
+      - name: DEBUG
+        run: find .
 
       - name: Release
         uses: softprops/action-gh-release@v1
