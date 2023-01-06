@@ -9,6 +9,7 @@ jobs:
   windows-build:
     runs-on: ubuntu-22.04
     env:
+      BUILD_MODE: build
       TARGET_ARCH: amd64-windows
 
     steps:
@@ -21,17 +22,20 @@ jobs:
       - name: Build
         run: |
           chmod u+x ./build.sh
-          ./build.sh build ./out_win.txt
+          ./build.sh
 
       - name: Deploy
         uses: actions/upload-artifact@v3
         with:
           name: "out-windows" #destination
-          path: ./out_win.txt #source
+          path: build/release/* #source
 
   windows-test:
     needs: [windows-build]
     runs-on: windows-2019
+    env:
+      BUILD_MODE: test
+      TARGET_ARCH: amd64-windows
 
     steps:
       - name: Checkout
@@ -46,13 +50,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: out-windows #source
-          path: ./out_win.txt #destination
+          path: build/release #destination
 
       - name: Test
         if: false
         shell: cmd
         run: |
-          build.bat test ./out_win.test.txt
+          build.bat
 
   ### linux
 
@@ -71,13 +75,13 @@ jobs:
       - name: Build
         run: |
           chmod u+x ./build.sh
-          ./build.sh build ./out_lin.txt
+          ./build.sh
 
       - name: Deploy
         uses: actions/upload-artifact@v3
         with:
           name: "out-linux" #destination
-          path: ./out_lin.txt #source
+          path: build/release/* #source
 
   linux-test:
     needs: [linux-build]
@@ -94,12 +98,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: out-linux #source
-          path: ./out_lin.txt #destination
+          path: build/release #destination
 
       - name: Test
         run: |
           chmod u+x ./build.sh
-          ./build.sh test ./out_win.test.txt
+          ./build.sh
 
   ### Release
 
