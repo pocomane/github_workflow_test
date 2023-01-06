@@ -39,21 +39,18 @@ jobs:
 
     steps:
       - name: Checkout
-        if: false
         uses: actions/checkout@v3
         with:
           submodules: recursive
           fetch-depth: 0
 
       - name: Download Windows artifact
-        if: false
         uses: actions/download-artifact@v3
         with:
           name: out-windows #source
           path: build/release #destination
 
       - name: Test
-        if: false
         shell: cmd
         run: |
           build.bat
