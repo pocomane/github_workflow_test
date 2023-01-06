@@ -12,7 +12,8 @@ jobs:
       TARGET_ARCH: amd64-windows
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           submodules: recursive
           fetch-depth: 0
@@ -29,23 +30,26 @@ jobs:
           path: ./out_win.txt #source
 
   windows-test:
-    if: false
     needs: [windows-build]
     runs-on: windows-2019
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+        if: false
         with:
           submodules: recursive
           fetch-depth: 0
 
       - name: Download Windows artifact
+        if: false
         uses: actions/download-artifact@v3
         with:
           name: out-windows #source
           path: ./out_win.txt #destination
 
       - name: Test
+        if: false
         shell: cmd
         run: |
           build.bat test ./out_win.test.txt
@@ -58,7 +62,8 @@ jobs:
       TARGET_ARCH: amd64-linux
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           submodules: recursive
           fetch-depth: 0
@@ -79,7 +84,8 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           submodules: recursive
           fetch-depth: 0
