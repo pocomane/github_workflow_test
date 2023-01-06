@@ -133,7 +133,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          body: Automatic Release
+          body: Automatic Release (${{ github.event.head_commit.timestamp }})
           tag_name: release.${{ github.sha }}
           files: release/*
 
