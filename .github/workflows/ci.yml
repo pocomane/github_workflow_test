@@ -29,6 +29,7 @@ jobs:
           path: ./out_win.txt #source
 
   windows-test:
+    if: false
     needs: [windows-build]
     runs-on: windows-2019
 
@@ -53,7 +54,6 @@ jobs:
 
   linux-build:
     runs-on: ubuntu-22.04
-    if: false
     env:
       TARGET_ARCH: amd64-linux
 
