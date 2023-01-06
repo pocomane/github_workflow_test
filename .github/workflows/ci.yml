@@ -127,6 +127,6 @@ jobs:
         with:
           body: Automatic Release
           tag_name: release.${{ github.sha }}
-          files: |
-            *.txt
+          files: win.txt
+
 
