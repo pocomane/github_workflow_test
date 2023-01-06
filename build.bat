@@ -1,2 +1,2 @@
 @echo off
-echo "ok"
+build\release\win.exe
