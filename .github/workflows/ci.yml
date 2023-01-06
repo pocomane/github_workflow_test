@@ -123,15 +123,9 @@ jobs:
           path: lin.txt #destination
 
       - name: Release
-        #uses: "marvinpinto/action-automatic-releases@latest" # original repo
-        #uses: "francesco-ballarin/action-automatic-releases@latest"
-        uses: "maggie0002/actions/packages/automatic-releases@built-packages"
+        uses: softprops/action-gh-release@v1
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: false
-          title: "Development Build"
           files: |
-            lin.txt
             win.txt
+            lin.txt
 
