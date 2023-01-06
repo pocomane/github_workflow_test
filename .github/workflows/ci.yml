@@ -63,6 +63,7 @@ jobs:
   linux-build:
     runs-on: ubuntu-22.04
     env:
+      BUILD_MODE: build
       TARGET_ARCH: amd64-linux
 
     steps:
@@ -86,6 +87,9 @@ jobs:
   linux-test:
     needs: [linux-build]
     runs-on: ubuntu-22.04
+    env:
+      BUILD_MODE: test
+      TARGET_ARCH: amd64-linux
 
     steps:
       - name: Checkout
