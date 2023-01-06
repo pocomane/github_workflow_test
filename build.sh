@@ -20,9 +20,9 @@ else # BUILD_MODE == build
     strip "$FILENAME".exe
   else # FILENEME == win
     cd build
-    curl -L -k http://musl.cc/i686-w64-mingw32-cross.tgz
-    tar -xzf *.tgz
-    rm *.tgz
+    curl -L -k http://musl.cc/i686-w64-mingw32-cross.tgz --output gcc.tgz
+    tar -xzf gcc.tgz
+    rm gcc.tgz
     cd release
     ../i686*/bin/i686*-gcc -static ../../main.c -o "$FILENAME".exe
     ../i686*/bin/i686*-strip "$FILENAME".exe
