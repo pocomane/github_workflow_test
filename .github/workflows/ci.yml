@@ -133,7 +133,7 @@ jobs:
           path: build/release/* #source
 
   raspberry-test:
-    needs: [linux-build]
+    needs: [raspberry-build]
     runs-on: ubuntu-22.04
     env:
       BUILD_MODE: test
