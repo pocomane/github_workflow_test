@@ -114,20 +114,21 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: out-windows #source
-          path: ./win.txt #destination
+          path: release #destination
 
       - name: Download Ubuntu artifact
         uses: actions/download-artifact@v3
         with:
           name: out-linux #source
-          path: ./lin.txt #destination
+          path: release #destination
+
       - name: DEBUG
         run: find .
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           body: Automatic Release
           tag_name: release.${{ github.sha }}
-          files: ./win.txt
-
+          files: release/*
 
