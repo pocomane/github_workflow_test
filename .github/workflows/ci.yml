@@ -4,6 +4,107 @@ on: [push, pull_request]
 
 jobs:
 
+  ### windows
+
+  windows-build:
+    runs-on: ubuntu-22.04
+    env:
+      BUILD_MODE: build
+      TARGET_ARCH: amd64-windows
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Build
+        run: |
+          chmod u+x ./build.sh
+          ./build.sh
+
+      - name: Store artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: "out-windows" #destination
+          path: build/release/* #source
+
+  windows-test:
+    needs: [windows-build]
+    runs-on: windows-2019
+    env:
+      BUILD_MODE: test
+      TARGET_ARCH: amd64-windows
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: out-windows #source
+          path: build/release #destination
+
+      - name: Test
+        shell: cmd
+        run: |
+          build.bat
+
+  ### linux
+
+  linux-build:
+    runs-on: ubuntu-22.04
+    env:
+      BUILD_MODE: build
+      TARGET_ARCH: amd64-linux
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Build
+        run: |
+          chmod u+x ./build.sh
+          ./build.sh
+
+      - name: Store artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: "out-linux" #destination
+          path: build/release/* #source
+
+  linux-test:
+    needs: [linux-build]
+    runs-on: ubuntu-22.04
+    env:
+      BUILD_MODE: test
+      TARGET_ARCH: amd64-linux
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: out-linux #source
+          path: build/release #destination
+
+      - name: Test
+        run: |
+          chmod u+x ./build.sh
+          ./build.sh
 
   ### raspberry
 
@@ -62,11 +163,22 @@ jobs:
 
   release:
     if: github.event_name == 'push'
-    needs: [raspberry-test]
+    needs: [windows-test, linux-test, raspberry-test]
     runs-on: ubuntu-22.04
 
     steps:
 
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: out-windows #source
+          path: release #destination
+
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: out-linux #source
+          path: release #destination
 
       - name: Download Raspberry artifact
         uses: actions/download-artifact@v3
