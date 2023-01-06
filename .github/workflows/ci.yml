@@ -121,7 +121,8 @@ jobs:
         with:
           name: out-linux #source
           path: ./lin.txt #destination
-
+      - name: DEBUG
+        run: find .
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
