@@ -19,5 +19,6 @@ else # BUILD_MODE == build
   # else # FILENEME == win
   #   gcc -static ../../main.c -o  "$FILENAME".exe
   # fi
+  chmod ugo+x "$FILENAME".exe
 fi
 
