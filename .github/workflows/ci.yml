@@ -125,6 +125,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: release.${{ github.event.head_commit.timestamp }}.${{ github.sha }}
           files: |
             win.txt
             lin.txt
