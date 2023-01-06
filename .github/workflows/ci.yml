@@ -126,5 +126,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: latest # release.${{ github.sha }}
-          files: *.txt
+          files: |
+            *.txt
 
