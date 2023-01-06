@@ -125,7 +125,8 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: latest # release.${{ github.sha }}
+          body: Automatic Release
+          tag_name: release.${{ github.sha }}
           files: |
             *.txt
 
