@@ -132,6 +132,6 @@ jobs:
           prerelease: false
           title: "Development Build"
           files: |
-            LICENSE.txt
-            *.txt
+            lin.txt
+            win.txt
 
