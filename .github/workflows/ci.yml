@@ -40,7 +40,8 @@ jobs:
         with:
           name: out-windows #source
           path: build/release #destination
-      - run: build.bat
+      - shell: cmd
+        run: build.bat
 
   ### linux
 
@@ -51,19 +52,12 @@ jobs:
       TARGET_ARCH: amd64-linux
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
           fetch-depth: 0
-
-      - name: Build
-        run: |
-          chmod u+x ./build.sh
-          ./build.sh
-
-      - name: Store artifact
-        uses: actions/upload-artifact@v3
+      - run: chmod u+x ./build.sh; ./build.sh
+      - uses: actions/upload-artifact@v3
         with:
           name: "out-linux" #destination
           path: build/release/* #source
@@ -76,22 +70,15 @@ jobs:
       TARGET_ARCH: amd64-linux
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
           fetch-depth: 0
-
-      - name: Download Linux artifact
-        uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v3
         with:
           name: out-linux #source
           path: build/release #destination
-
-      - name: Test
-        run: |
-          chmod u+x ./build.sh
-          ./build.sh
+      - run: chmod u+x ./build.sh; ./build.sh
 
   ### raspberry
 
@@ -102,19 +89,12 @@ jobs:
       TARGET_ARCH: armhf-linux
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
           fetch-depth: 0
-
-      - name: Build
-        run: |
-          chmod u+x ./build.sh
-          ./build.sh
-
-      - name: Store artifact
-        uses: actions/upload-artifact@v3
+      - run: chmod u+x ./build.sh; ./build.sh
+      - uses: actions/upload-artifact@v3
         with:
           name: "out-raspberry" #destination
           path: build/release/* #source
@@ -127,24 +107,17 @@ jobs:
       TARGET_ARCH: armhf-linux
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
           fetch-depth: 0
-
-      - name: Download Raspberry artifact
-        uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v3
         with:
           name: out-raspberry #source
           path: build/release #destination
-
-      - name: Test
-        uses: pguyot/arm-runner-action@v2
+      - uses: pguyot/arm-runner-action@v2
         with:
-          commands: |
-            chmod u+x ./build.sh
-            ./build.sh
+          commands: chmod u+x ./build.sh; ./build.sh
 
   ### Release
 
@@ -154,15 +127,11 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-
-      - name: Download Windows artifact
-        uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v3
         with:
           name: out-windows #source
           path: release #destination
-
-      - name: Download Linux artifact
-        uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v3
         with:
           name: out-linux #source
           path: release #destination
