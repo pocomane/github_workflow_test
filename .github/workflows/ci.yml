@@ -25,7 +25,8 @@ jobs:
           path: build/release/* #source
 
   windows-test:
-    needs: [windows-build]
+    needs:
+      - windows-build
     runs-on: windows-2019
     env:
       BUILD_MODE: test
@@ -63,7 +64,8 @@ jobs:
           path: build/release/* #source
 
   linux-test:
-    needs: [linux-build]
+    needs:
+      - linux-build
     runs-on: ubuntu-22.04
     env:
       BUILD_MODE: test
@@ -100,7 +102,8 @@ jobs:
           path: build/release/* #source
 
   raspberry-test:
-    needs: [raspberry-build]
+    needs:
+      - raspberry-build
     runs-on: ubuntu-22.04
     env:
       BUILD_MODE: test
@@ -123,7 +126,10 @@ jobs:
 
   release:
     if: github.event_name == 'push'
-    needs: [windows-test, linux-test, raspberry-test]
+    needs:
+      - windows-test
+      - linux-test
+      - raspberry-test
     runs-on: ubuntu-22.04
 
     steps:
