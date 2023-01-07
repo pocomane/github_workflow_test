@@ -4,5 +4,4 @@ runs:
   using: "composite"
   steps:
     - shell: bash
-      run: |
-        echo Hello $BUILD_MODE $TARGET_ARCH.
+      run: env 
