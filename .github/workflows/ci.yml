@@ -17,13 +17,8 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-
       - uses: ./.github/workflows/ci_build
-
-      - run: |
-          chmod u+x ./build.sh
-          ./build.sh
-
+      - run: chmod u+x ./build.sh ; ./build.sh
       - uses: actions/upload-artifact@v3
         with:
           name: "out-windows" #destination
