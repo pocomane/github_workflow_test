@@ -13,14 +13,14 @@ jobs:
       TARGET_ARCH: amd64-windows
 
     steps:
-      - name: TEST
-        uses: ./.github/workflows/ci_build
-
       - name: Checkout
         uses: actions/checkout@v3
         with:
           submodules: recursive
           fetch-depth: 0
+
+      - name: TEST
+        uses: ./.github/workflows/ci_build
 
       - name: Build
         run: |
