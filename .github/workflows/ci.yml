@@ -17,13 +17,8 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-
       - uses: ./.github/workflows/ci_build
-
-      - run: |
-          chmod u+x ./build.sh
-          ./build.sh
-
+      - run: chmod u+x ./build.sh ; ./build.sh
       - uses: actions/upload-artifact@v3
         with:
           name: "out-windows" #destination
@@ -37,22 +32,15 @@ jobs:
       TARGET_ARCH: amd64-windows
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
           fetch-depth: 0
-
-      - name: Download Windows artifact
-        uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v3
         with:
           name: out-windows #source
           path: build/release #destination
-
-      - name: Test
-        shell: cmd
-        run: |
-          build.bat
+      - run: build.bat
 
   ### linux
 
