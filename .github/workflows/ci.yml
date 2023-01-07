@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: TEST
-        uses: ./.github/workflows/ci_build.yml
+        uses: ./.github/workflows/ci_build
 
       - name: Checkout
         uses: actions/checkout@v3
